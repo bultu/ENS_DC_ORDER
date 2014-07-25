@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.ctli.dco.dto.Developer;
 import com.ctli.dco.dto.FolderContent;
 import com.ctli.dco.dto.Issue;
 import com.ctli.dco.service.IPopulatePageService;
@@ -85,64 +84,32 @@ public class PopulatePageService implements IPopulatePageService {
 	@Override
 	public ArrayList<Issue> getIssueList() {
 		ArrayList<Issue> issueList = new ArrayList<Issue>();
-		ArrayList<Developer> devList = new ArrayList<Developer>();
-		String issuedirectory = "inputFiles/DC_ORDER/output/filteredData.txt";
-		String devDirectory = "referenceData/DC_ORDER/DeveloperList.txt";
+		String issuedirectory = "inputFiles/DC_ORDER/output/commonData.txt";
 
 		BufferedReader issueBuffer = null;
 		FileReader issueFileReader = null;
 
-		BufferedReader devBuffer = null;
-		FileReader devFileReader = null;
 		try {
-
-			// Populate devList from flatfile in devDirectory
-			
-			devFileReader = new FileReader(devDirectory);
-			devBuffer = new BufferedReader(devFileReader);
-			String line;
-			while ((line = devBuffer.readLine()) != null) {
-				Developer dev = new Developer();
-				dev.setName(line.split("--")[0]);
-				dev.setThreshold(Integer.parseInt(line.split("--")[1]));
-				devList.add(dev);
-			}
-
-			// Assign DC_ORDER Issues to developers
 
 			issueFileReader = new FileReader(issuedirectory);
 			issueBuffer = new BufferedReader(issueFileReader);
-			int id = 1;
+			String line;
 			while ((line = issueBuffer.readLine()) != null) {
+				String[] issueItemArray = line.split("--");
 				Issue issue = new Issue();
-				issue.setIssueID(id++);
-				issue.setStatus("Assigned");
-				issue.setTitle(line);
+				issue.setIssueID(Integer.parseInt(issueItemArray[0]));
+				issue.setTitle(issueItemArray[1]);
+				issue.setDeveloperName(issueItemArray[2]);
+				issue.setStatus(issueItemArray[3]);
+
 				issueList.add(issue);
 			}
-
-			int index = 0;
-			Developer devItem = devList.get(index);
-			int devIssueLimit = devItem.getThreshold();
-
-			for (Issue issueItem : issueList) {
-				if (devIssueLimit > 0) {
-					issueItem.setDeveloperName(devItem.getName());
-					devIssueLimit--;
-				} else {
-					devItem = devList.get(++index);
-					devIssueLimit = devItem.getThreshold();
-					issueItem.setDeveloperName(devItem.getName());
-					devIssueLimit--;
-				}
-			}
+		
 
 		} catch (IOException | IndexOutOfBoundsException e) {
 			System.out.println(e.getMessage());
 		} finally {
 			try {
-				devFileReader.close();
-				devBuffer.close();
 				issueFileReader.close();
 				issueBuffer.close();
 			} catch (IOException e) {

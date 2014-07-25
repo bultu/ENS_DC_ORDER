@@ -22,7 +22,6 @@ public class CompareIssueService implements ICompareIssueService {
 
 		BufferedReader brOld = null;
 		BufferedReader brNew = null;
-		/* BufferedReader scriptTemplatePart1 = null; */
 
 		File oldYesterday = new File("inputFiles/" + type
 				+ "/input/yesterday.txt");
@@ -32,7 +31,6 @@ public class CompareIssueService implements ICompareIssueService {
 		File dest = new File("inputFiles/" + type + "/input/today.txt");
 		File automatedIssues = new File("flatFiles/" + type
 				+ "/aaautomatedIssues.txt");
-		// File automatedIssuesDirectory = new File("flatFiles/"+type);
 		File resultsInputFile = new File(resultsFile);
 
 		try {
@@ -51,17 +49,10 @@ public class CompareIssueService implements ICompareIssueService {
 				moveFile(source1, dest1);
 				copyFile(source, dest);
 
-				// FileUtils.cleanDirectory(automatedIssuesDirectory);
-
 				brOld = new BufferedReader(new FileReader("inputFiles/" + type
 						+ "/input/yesterday.txt"));
 				brNew = new BufferedReader(new FileReader("inputFiles/" + type
 						+ "/input/today.txt"));
-				/*
-				 * scriptTemplatePart1 = new BufferedReader(new FileReader(
-				 * "referenceData/DC_ORDER/CSM_CUP1_DC_ORDERS_IR99999_part1.txt"
-				 * ));
-				 */
 			} catch (Exception e) {
 				System.out.println("Input Files missing , Please read Note.");
 				System.out.println("NOTE: Place results.txt in new directory");
@@ -72,20 +63,11 @@ public class CompareIssueService implements ICompareIssueService {
 				System.exit(0);
 			}
 
-			/*
-			 * scriptTemplatePart2 = new BufferedReader(new FileReader(
-			 * "template/CSM_CUP1_DC_ORDERS_IR99999_part2.txt"));
-			 */
-
 			File commonData = new File("inputFiles/" + type
 					+ "/output/commonData.txt");
 			File filteredData = new File("inputFiles/" + type
 					+ "/output/filteredData.txt");
 
-			/*
-			 * File DcOrderscript = new File("combinedScript/" + type + "/" +
-			 * fileName + ".sql");
-			 */
 
 			ArrayList<String> oldFileDataArrayList = new ArrayList<String>();
 			ArrayList<String> newFileDataArrayList = new ArrayList<String>();
@@ -123,34 +105,11 @@ public class CompareIssueService implements ICompareIssueService {
 				commonDataBuffer.write('\n');
 			}
 
-			/*
-			 * DcOrderscript.createNewFile(); FileWriter DcOrderScriptWriter =
-			 * new FileWriter( DcOrderscript.getAbsoluteFile());
-			 * 
-			 * BufferedWriter DcOrderScriptBuffer = new BufferedWriter(
-			 * DcOrderScriptWriter);
-			 */
-
-			/*
-			 * while ((sPart1 = scriptTemplatePart1.readLine()) != null) {
-			 * DcOrderScriptBuffer.write(sPart1);
-			 * DcOrderScriptBuffer.write('\n'); }
-			 */
-
 			for (String filteredDataRow : newFileDataArrayList) {
 				filteredDataBuffer.write(filteredDataRow);
 				filteredDataBuffer.write('\n');
-				/*
-				 * DcOrderScriptBuffer.write(filteredDataRow);
-				 * DcOrderScriptBuffer.write('\n');
-				 */
 
 			}
-
-			/*
-			 * DcOrderScriptBuffer.write("END;\n");
-			 * DcOrderScriptBuffer.write("/");
-			 */
 
 			System.out.println("Done");
 
@@ -160,13 +119,12 @@ public class CompareIssueService implements ICompareIssueService {
 			System.out.println("filteredData.txt");
 			System.out
 					.println("----------------------------------------------------------------");
-			assignIssues();
+			
 			commonDataBuffer.close();
 			filteredDataBuffer.close();
-			/* DcOrderScriptBuffer.close(); */
-
+			assignIssues();
 			copyFile(filteredData, automatedIssues);
-
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -182,16 +140,18 @@ public class CompareIssueService implements ICompareIssueService {
 
 	}
 	
+	public static void main(String[] args) {
+		CompareIssueService css = new  CompareIssueService();
+		css.assignIssues();
+	}
 
 
 	public ArrayList<Issue> assignIssues() {
 		ArrayList<Issue> issueList = new ArrayList<Issue>();
 		ArrayList<Developer> devList = new ArrayList<Developer>();
-		String issuedirectory = "inputFiles/DC_ORDER/output/filteredData.txt";
+		String issuedirectory = "inputFiles/DC_ORDER/output/commonData.txt";
 		String devDirectory = "referenceData/DC_ORDER/DeveloperList.txt";
 
-		FileWriter filteredDataWriter = null;
-		BufferedWriter filteredDataBuffer = null;
 
 		BufferedReader issueBuffer = null;
 		FileReader issueFileReader = null;
@@ -201,9 +161,6 @@ public class CompareIssueService implements ICompareIssueService {
 		try {
 
 			// Populate devList from flatfile in devDirectory
-
-			filteredDataWriter = new FileWriter(issuedirectory);
-			filteredDataBuffer = new BufferedWriter(filteredDataWriter);
 
 			devFileReader = new FileReader(devDirectory);
 			devBuffer = new BufferedReader(devFileReader);
@@ -243,9 +200,6 @@ public class CompareIssueService implements ICompareIssueService {
 					devIssueLimit--;
 				}
 			}
-
-			filteredDataWriter.close();
-			filteredDataBuffer.close();
 
 			PrintWriter pw = new PrintWriter(issuedirectory);
 			for (Issue issueItem : issueList) {

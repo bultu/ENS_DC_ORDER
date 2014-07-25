@@ -25,9 +25,7 @@
 <script src="bootstrap/js/bootstrap.min.js"></script>
 
 
-<s:set var="callCount">
-${getIssuesCallCount}
-</s:set>
+<s:hidden id="callCount" value="%{getIssuesCallCount}" name="callCount"/>
 
 
 <script type="text/javascript">
@@ -52,8 +50,8 @@ function submitForm(id) {
 
 
 function getissueData(id){
-	var issueCallCount = '${callCount}';
-	if(issueCallCount == null)
+	var issueCallCount='${getIssuesCallCount}';
+	if(issueCallCount == '' )
 		document.forms[id].submit();
 }
 </script>
@@ -112,7 +110,6 @@ footer {
 
 
 <body onload="getissueData('getIssues');">
-
 <form action="getIssues" id = "getIssues"></form>
 
 	<!-- Header -->
