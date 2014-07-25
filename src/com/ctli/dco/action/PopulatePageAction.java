@@ -17,6 +17,23 @@ public class PopulatePageAction extends ActionSupport {
 
 	ArrayList<FolderContent> foldercontents = null;
 	ArrayList<Issue> issueList = null;
+	int getIssuesCallCount = 0;
+
+	public ArrayList<Issue> getIssueList() {
+		return issueList;
+	}
+
+	public void setIssueList(ArrayList<Issue> issueList) {
+		this.issueList = issueList;
+	}
+
+	public int getGetIssuesCallCount() {
+		return getIssuesCallCount;
+	}
+
+	public void setGetIssuesCallCount(int getIssuesCallCount) {
+		this.getIssuesCallCount = getIssuesCallCount;
+	}
 
 	public ArrayList<FolderContent> getFoldercontents() {
 		return foldercontents;
@@ -35,15 +52,15 @@ public class PopulatePageAction extends ActionSupport {
 		return "success";
 	}
 
-	
 	public String getIssues() throws Exception {
 		issueList = new ArrayList<Issue>();
 		IPopulatePageService ppService = new PopulatePageService();
 		issueList = ppService.getIssueList();
+		getIssuesCallCount++;
 
 		return "success";
 	}
-	
+
 	/*
 	 * public static void main(String[] args) { UploadScriptAction ul = new
 	 * UploadScriptAction(); ul.combineScripts("flatfiles"); }

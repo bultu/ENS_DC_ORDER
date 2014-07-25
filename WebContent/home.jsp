@@ -24,6 +24,12 @@
 <script src="jquery/js/jquery-1.11.1.min.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
 
+
+<s:set var="callCount">
+${getIssuesCallCount}
+</s:set>
+
+
 <script type="text/javascript">
 $(function(){
 	  
@@ -42,6 +48,13 @@ $(function(){
 
 function submitForm(id) {
 	document.forms[id].submit();
+}
+
+
+function getissueData(id){
+	var issueCallCount = '${callCount}';
+	if(issueCallCount == null)
+		document.forms[id].submit();
 }
 </script>
 
@@ -98,7 +111,7 @@ footer {
 </head>
 
 
-<body onload="submitForm('getIssues');">
+<body onload="getissueData('getIssues');">
 
 <form action="getIssues" id = "getIssues"></form>
 
@@ -285,7 +298,7 @@ footer {
                 </tr>
               </thead>
               <tbody>
-                <s:iterator value="assignedIssueList">
+                <s:iterator value="issueList">
                   <tr>
                     <td><s:property value="issueID" /></td>
                     <td><s:property value="title" /></td>

@@ -97,6 +97,7 @@ public class PopulatePageService implements IPopulatePageService {
 		try {
 
 			// Populate devList from flatfile in devDirectory
+			
 			devFileReader = new FileReader(devDirectory);
 			devBuffer = new BufferedReader(devFileReader);
 			String line;
@@ -148,7 +149,6 @@ public class PopulatePageService implements IPopulatePageService {
 				System.out.println(e.getMessage());
 			}
 		}
-
 		return issueList;
 	}
 
