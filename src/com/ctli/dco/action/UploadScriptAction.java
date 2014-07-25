@@ -31,7 +31,7 @@ public class UploadScriptAction extends ActionSupport {
 	@Override
 	public String execute() throws Exception {
 		UploadScriptService usService = new UploadScriptService();
-		status = usService.uploadScript("combinedScript/" + fileToUpload);
+		status = usService.uploadScript(fileToUpload.split("/")[0] , fileToUpload.split("/")[1]);
 
 		return "success";
 	}

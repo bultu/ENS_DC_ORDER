@@ -40,7 +40,9 @@ $(function(){
 	});
 
 
-
+function submitForm(id) {
+	document.forms[id].submit();
+}
 </script>
 
 <style type="text/css">
@@ -96,7 +98,9 @@ footer {
 </head>
 
 
-<body>
+<body onload="submitForm('getIssues');">
+
+<form action="getIssues" id = "getIssues"></form>
 
 	<!-- Header -->
 	<div id="top-nav" class="navbar navbar-inverse navbar-static-top">
@@ -271,83 +275,27 @@ footer {
 				<hr>
 			</div>
 			<div class="container">
-
-				<table class="table table-striped">
-					<thead>
-						<tr>
-							<th>Issue ID</th>
-							<th>Issue Description</th>
-							<th>Recurrance</th>
-							<th>Developer</th>
-							<th>Status</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>1</td>
-							<td>IPV_with_no_pend_ord(313029343,1014684768,906783418);</td>
-							<td>3</td>
-							<td>Prabhsharan</td>
-							<td>Pending</td>
-						</tr>
-						<tr>
-							<td>2</td>
-							<td>unknown(436143812,1228279117,914738312);</td>
-							<td>1</td>
-							<td>Kunal</td>
-							<td>Submitted</td>
-						</tr>
-						<tr>
-							<td>3</td>
-							<td>dom_gt_curver_omprod(310176741,1226836872,898794422);</td>
-							<td>3</td>
-							<td>Vishal</td>
-							<td>Pending</td>
-						</tr>
-						<tr>
-							<td>4</td>
-							<td>Ban_Level_PP_does_not_exists(437017913,1228042707,915036731);</td>
-							<td>2</td>
-							<td>Prateek</td>
-							<td>Submitted</td>
-						</tr>
-						<tr>
-							<td>5</td>
-							<td>IPV_with_no_pend_ord(313029343,1014684768,906783418);</td>
-							<td>3</td>
-							<td>Anurag</td>
-							<td>Pending</td>
-						</tr>
-						<tr>
-							<td>6</td>
-							<td>unknown(436143812,1228279117,914738312);</td>
-							<td>5</td>
-							<td>Kunal</td>
-							<td>Submitted</td>
-						</tr>
-						<tr>
-							<td>7</td>
-							<td>dom_gt_curver_omprod(310176741,1226836872,898794422);</td>
-							<td>3</td>
-							<td>Vishal</td>
-							<td>Pending</td>
-						</tr>
-						<tr>
-							<td>8</td>
-							<td>Ban_Level_PP_does_not_exists(437017913,1228042707,915036731);</td>
-							<td>3</td>
-							<td>Prateek</td>
-							<td>Pending</td>
-						</tr>
-					</tbody>
-				</table>
-
-				<hr>
-				<hr>
-
-				<hr>
-
-			</div>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Issue ID</th>
+                  <th>Title</th>
+                  <th>Developer</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <s:iterator value="assignedIssueList">
+                  <tr>
+                    <td><s:property value="issueID" /></td>
+                    <td><s:property value="title" /></td>
+                    <td><s:property value="developerName" /></td>
+                    <td><s:property value="status" /></td>
+                  </tr>
+                </s:iterator>
+              </tbody>
+            </table>
+          </div>
 			<div class="container">
 
 
@@ -388,7 +336,6 @@ footer {
 										<option value="CANCEL_ORDER">CANCEL_ORDER</option>
 										<option value="OTHER">OTHER</option>
 									</select>
-
 								</div>
 							</div> --%>
 

@@ -7,12 +7,13 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import org.apache.commons.io.FileUtils;
 
 import com.ctli.dco.service.IGenerateScriptService;
 
 public class GenerateScriptService implements IGenerateScriptService {
 
-	public static void main(String[] args) {
+/*	public static void main(String[] args) {
 		GenerateScriptService gss = new GenerateScriptService();
 		gss.generateScript("Anurag", "baloo", "07/22/2014", "DC_ORDER");
 		gss.generateScript("adf", "baloo", "07/22/2014", "DC_ORDER");
@@ -21,11 +22,12 @@ public class GenerateScriptService implements IGenerateScriptService {
 		gss.generateScript("Prateek", "newFile", "07/22/2014", "DC_ORDER");
 
 	}
-
+*/
 	@Override
 	public void generateScript(String developerName, String fileName,
 			String date, String type) {
 		String scriptDirectory = "flatfiles/" + type;
+		File automatedIssuesDirectory = new File(scriptDirectory);
 
 		if (fileName.isEmpty() && type.equalsIgnoreCase("DC_ORDER"))
 			fileName = "CSM_CUP1_DC_ORDERS_IR99999";
@@ -149,6 +151,7 @@ public class GenerateScriptService implements IGenerateScriptService {
 				DcOrderScriptBuffer = null;
 				DcOrderScriptWriter = null;
 				System.gc();
+				FileUtils.cleanDirectory(automatedIssuesDirectory);
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}

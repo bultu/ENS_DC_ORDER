@@ -27,8 +27,16 @@
             <result name="success" >admin.jsp</result>
         </action>
         
+        <action name="getIssues" class="com.ctli.dco.action.PopulatePageAction" method="getIssues">
+            <result name="success" >home.jsp</result>
+        </action>
+        
         
         <action name="uploadScript" class="com.ctli.dco.action.UploadScriptAction">
+            <result name="success" >admin.jsp</result>
+        </action>
+        
+        <action name="editScript" class="com.ctli.dco.action.EditScriptAction">
             <result name="success" >admin.jsp</result>
         </action>
         

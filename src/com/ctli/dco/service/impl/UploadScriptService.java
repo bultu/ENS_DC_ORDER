@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import com.ctli.dco.service.IUploadScriptService;
 import com.jcraft.jsch.Channel;
@@ -26,10 +29,11 @@ public class UploadScriptService implements IUploadScriptService {
 	Channel channelExec = null;
 	ChannelSftp channelSftp = null;
 
-	public String uploadScript(String scriptPath) {
-		String status  = "Uploaded Sucessfully at ";
+	public String uploadScript(String type, String scriptName) {
+		String status = "Uploaded Sucessfully at ";
 		try {
-			
+
+			String scriptPath = "combinedScript/" + type + "/" + scriptName;
 			JSch jsch = new JSch();
 			session = jsch.getSession(SFTPUSER, SFTPHOST, SFTPPORT);
 			session.setPassword(SFTPPASS);
@@ -59,16 +63,27 @@ public class UploadScriptService implements IUploadScriptService {
 
 			fiStream.close();
 		} catch (Exception ex) {
-			status=ex.getMessage();
+			status = ex.getMessage();
 			System.out.println(ex.getMessage());
 		} finally {
 			channelExec.disconnect();
 			channelSftp.disconnect();
 			channel.disconnect();
 			session.disconnect();
-
+			moveToOld(type, scriptName);
+ 
 		}
 		return status;
 	}
+
+	private void moveToOld(String type, String scriptName) {
+		CompareIssueService csService = new CompareIssueService();
+		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+		File oldFile = new File("combinedScript/" + type + "/OLD/" + scriptName+"_"+timeStamp);
+		File file = new File("combinedScript/" + type + "/" + scriptName);
+		csService.moveFile(file, oldFile);
+		
+	}
+	
 
 }

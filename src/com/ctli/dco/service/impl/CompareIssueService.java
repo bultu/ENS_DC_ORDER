@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 
-import org.apache.commons.io.FileUtils;
+
 
 import com.ctli.dco.service.ICompareIssueService;
 
@@ -32,7 +32,7 @@ public class CompareIssueService implements ICompareIssueService {
 		File source = new File("inputFiles/"+type+"/new/results.txt");
 		File dest = new File("inputFiles/"+type+"/input/today.txt");
 		File automatedIssues = new File("flatFiles/"+type+"/aaautomatedIssues.txt");
-		File automatedIssuesDirectory = new File("flatFiles/"+type);
+		//File automatedIssuesDirectory = new File("flatFiles/"+type);
 		File resultsInputFile = new File(resultsFile);
 
 		try {
@@ -51,7 +51,7 @@ public class CompareIssueService implements ICompareIssueService {
 				moveFile(source1, dest1);
 				copyFile(source, dest);
 				
-				FileUtils.cleanDirectory(automatedIssuesDirectory); 
+				//FileUtils.cleanDirectory(automatedIssuesDirectory); 
 
 				brOld = new BufferedReader(
 						new FileReader("inputFiles/"+type+"/input/yesterday.txt"));
@@ -171,7 +171,7 @@ public class CompareIssueService implements ICompareIssueService {
 
 	}
 
-	private static void copyFile(File source, File dest) {
+	public void copyFile(File source, File dest) {
 		FileChannel inputChannel = null;
 		FileChannel outputChannel = null;
 		try {
@@ -194,13 +194,13 @@ public class CompareIssueService implements ICompareIssueService {
 
 	}
 
-	private static void moveFile(File source1, File dest1) {
+	public void moveFile(File source1, File dest1) {
 		copyFile(source1, dest1);
 		deleteFile(source1);
 
 	}
 
-	private static void deleteFile(File source1) {
+	public void deleteFile(File source1) {
 		if (source1.delete()) {
 			System.out.println("Deleted File : " + source1.getAbsolutePath());
 		} else {
