@@ -60,6 +60,23 @@ function getissueData(id){
 .bs-example {
 	margin: 20px;
 }
+
+.DivToScroll{   
+    background-color: #F5F5F5;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px 0 4px 0;
+    color: #3B3C3E;
+    font-size: 12px;
+    font-weight: bold;
+    left: -1px;
+    padding: 10px 7px 5px;
+}
+
+.DivWithScroll{
+    height:400px;
+    overflow:scroll;
+    overflow-x:hidden;
+}
 </style>
 
 <%--  <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script> --%>
@@ -276,7 +293,7 @@ footer {
 			</div>
 
 		</div>
-		<div class="row">
+		<div class="row ">
 
 			<div class="col-md-12">
 				<hr>
@@ -284,7 +301,7 @@ footer {
 						class="glyphicon glyphicon-list-alt"></i> Issues</strong></a>
 				<hr>
 			</div>
-			<div class="container">
+			<div class="container DivWithScroll">
             <table class="table table-striped">
               <thead>
                 <tr>

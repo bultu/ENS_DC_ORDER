@@ -40,6 +40,12 @@
 		var s = document.getElementById(id);
 		s.value = gRadioValue;
 	}
+	
+	function getScriptTable(id){
+		var issueCallCount='${getIssuesCallCount}';
+		if(issueCallCount == '' )
+			document.forms[id].submit();
+	}
 
 
     $(window).load(function(){
@@ -62,7 +68,7 @@
 
 </head>
 
-<!-- <body  onload="populateTable()"> -->
+<!-- <body  getScriptTable('populatePage')"> -->
 
 <body>
 

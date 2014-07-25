@@ -48,7 +48,7 @@ public class PopulatePageAction extends ActionSupport {
 		foldercontents = new ArrayList<FolderContent>();
 		IPopulatePageService ppService = new PopulatePageService();
 		foldercontents = ppService.populatePage();
-
+		getIssuesCallCount++;
 		return "success";
 	}
 
