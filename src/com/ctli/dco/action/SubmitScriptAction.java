@@ -48,7 +48,7 @@ public class SubmitScriptAction extends ActionSupport {
 	@Override
 	public String execute() throws Exception {
 		SubmitScriptService ssService = new SubmitScriptService();
-
+		
 		ssService.makeScript(developerName, issueDesc, script, type);
 		// uploadScript(scriptPath);
 

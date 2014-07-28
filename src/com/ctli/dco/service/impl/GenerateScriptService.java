@@ -1,7 +1,6 @@
 package com.ctli.dco.service.impl;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -13,16 +12,17 @@ import com.ctli.dco.service.IGenerateScriptService;
 
 public class GenerateScriptService implements IGenerateScriptService {
 
-/*	public static void main(String[] args) {
-		GenerateScriptService gss = new GenerateScriptService();
-		gss.generateScript("Anurag", "baloo", "07/22/2014", "DC_ORDER");
-		gss.generateScript("adf", "baloo", "07/22/2014", "DC_ORDER");
-		gss.generateScript("asdx", "baloo", "07/22/2014", "DC_ORDER");
-		gss.generateScript("Anurag", "newFile", "07/22/2014", "DC_ORDER");
-		gss.generateScript("Prateek", "newFile", "07/22/2014", "DC_ORDER");
-
-	}
-*/
+	/*
+	 * public static void main(String[] args) { GenerateScriptService gss = new
+	 * GenerateScriptService(); gss.generateScript("Anurag", "baloo",
+	 * "07/22/2014", "DC_ORDER"); gss.generateScript("adf", "baloo",
+	 * "07/22/2014", "DC_ORDER"); gss.generateScript("asdx", "baloo",
+	 * "07/22/2014", "DC_ORDER"); gss.generateScript("Anurag", "newFile",
+	 * "07/22/2014", "DC_ORDER"); gss.generateScript("Prateek", "newFile",
+	 * "07/22/2014", "DC_ORDER");
+	 * 
+	 * }
+	 */
 	@Override
 	public void generateScript(String developerName, String fileName,
 			String date, String type) {
@@ -76,10 +76,8 @@ public class GenerateScriptService implements IGenerateScriptService {
 			if (listOfRefFiles == null)
 				listOfRefFiles = new File[0];
 
-			// createHeader(developerName, combinedFile, date,
-			// DcOrderScriptBuffer);
-
-			// -----------------------------------------------------------------
+			// ---------------------------Create Header for
+			// Script----------------------------
 			DcOrderScriptBuffer
 					.write("--**************************************************************");
 			DcOrderScriptBuffer.print('\n');
@@ -115,6 +113,7 @@ public class GenerateScriptService implements IGenerateScriptService {
 			}
 
 			for (int i = 0; i < listOfFiles.length; i++) {
+				DcOrderScriptBuffer.print('\n');
 				if (listOfFiles[i].isFile()) {
 					System.out.println("File " + listOfFiles[i].getName());
 					fReader = new FileReader(listOfFiles[i]);
@@ -122,9 +121,7 @@ public class GenerateScriptService implements IGenerateScriptService {
 					while ((line = temp.readLine()) != null) {
 						DcOrderScriptBuffer.print(line);
 						DcOrderScriptBuffer.print('\n');
-
 					}
-
 				}
 			}
 
@@ -156,27 +153,6 @@ public class GenerateScriptService implements IGenerateScriptService {
 				System.out.println(e.getMessage());
 			}
 
-		}
-
-	}
-
-	private void createHeader(String developerName, File combinedFile,
-			String date, BufferedWriter DcOrderScriptBuffer) {
-		try {
-
-			DcOrderScriptBuffer
-					.write("--**************************************************************");
-			DcOrderScriptBuffer.write('\n');
-			DcOrderScriptBuffer.write("-- SCRIPT NAME:     "
-					+ combinedFile.getName());
-			DcOrderScriptBuffer.write('\n');
-			DcOrderScriptBuffer.write("-- AUTHOR:          " + developerName);
-			DcOrderScriptBuffer.write('\n');
-			DcOrderScriptBuffer.write("-- DATE:            " + date);
-			DcOrderScriptBuffer.write('\n');
-
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
 		}
 
 	}

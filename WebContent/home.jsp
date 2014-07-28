@@ -208,34 +208,33 @@ footer {
 
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<h4>Processing Status</h4>
+								<h4>DC_ORDER Issue Status</h4>
 							</div>
 							<div class="panel-body">
 
 								<small>Complete</small>
 								<div class="progress">
 									<div class="progress-bar progress-bar-success"
-										role="progressbar" aria-valuenow="72" aria-valuemin="0"
-										aria-valuemax="100" style="width: 72%">
-										<span class="sr-only">72% Complete</span>
+										role="progressbar" style="width: ${pendingCount}%">
+										<span class="sr-only">${pendingCount}% Complete</span>
 									</div>
 								</div>
 								<small>In Progress</small>
 								<div class="progress">
 									<div class="progress-bar progress-bar-info" role="progressbar"
 										aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"
-										style="width: 20%">
-										<span class="sr-only">20% Complete</span>
+										style="width: ${compCount}%">
+										<span class="sr-only">${compCount}% Complete</span>
 									</div>
 								</div>
-								<small>At Risk</small>
+							<%-- 	<small>At Risk</small>
 								<div class="progress">
 									<div class="progress-bar progress-bar-danger"
 										role="progressbar" aria-valuenow="80" aria-valuemin="0"
 										aria-valuemax="100" style="width: 80%">
 										<span class="sr-only">80% Complete</span>
 									</div>
-								</div>
+								</div> --%>
 
 							</div>
 							<!--/panel-body-->
@@ -340,7 +339,7 @@ footer {
 						<form class="form form-vertical" action="submitScript"
 							id="submitScript">
 							<div class="control-group">
-								<label>Name</label>
+								<label>Developer Name</label>
 								<div class="controls">
 									<input type="text" class="form-control"
 										placeholder="Developer Name" name="developerName">

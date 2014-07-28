@@ -35,7 +35,7 @@ public class PopulatePageService implements IPopulatePageService {
 			File directory = listOfRefFiles[i];
 			FolderContent folderContent = new FolderContent();
 
-			if (directory.isDirectory()) {
+			if (directory.isDirectory() && !directory.getName().equals("OLD")) {
 				foldercontents
 						.addAll(listDirectory(directory.getAbsolutePath()));
 			} else if (directory.isFile()) {
@@ -82,8 +82,10 @@ public class PopulatePageService implements IPopulatePageService {
 	}
 
 	@Override
-	public ArrayList<Issue> getIssueList() {
+	public ArrayList<Object> getIssueList() {
+		ArrayList<Object> returnList = new ArrayList<Object>();
 		ArrayList<Issue> issueList = new ArrayList<Issue>();
+		int countArray[] = new int[2];
 		String issuedirectory = "inputFiles/DC_ORDER/output/commonData.txt";
 
 		BufferedReader issueBuffer = null;
@@ -101,10 +103,12 @@ public class PopulatePageService implements IPopulatePageService {
 				issue.setTitle(issueItemArray[1]);
 				issue.setDeveloperName(issueItemArray[2]);
 				issue.setStatus(issueItemArray[3]);
-
+				if (issueItemArray[3].equalsIgnoreCase("Assigned"))
+					countArray[0]++;
+				else
+					countArray[1]++;
 				issueList.add(issue);
 			}
-		
 
 		} catch (IOException | IndexOutOfBoundsException e) {
 			System.out.println(e.getMessage());
@@ -116,7 +120,10 @@ public class PopulatePageService implements IPopulatePageService {
 				System.out.println(e.getMessage());
 			}
 		}
-		return issueList;
+		returnList.add(issueList);
+		returnList.add(countArray);
+		return returnList;
 	}
+
 
 }

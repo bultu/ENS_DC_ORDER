@@ -18,6 +18,30 @@ public class PopulatePageAction extends ActionSupport {
 	ArrayList<FolderContent> foldercontents = null;
 	ArrayList<Issue> issueList = null;
 	int getIssuesCallCount = 0;
+	
+	int compCount = 0;
+
+	int pendingCount = 0;
+	
+	
+
+
+
+	public int getCompCount() {
+		return compCount;
+	}
+
+	public void setCompCount(int compCount) {
+		this.compCount = compCount;
+	}
+
+	public int getPendingCount() {
+		return pendingCount;
+	}
+
+	public void setPendingCount(int pendingCount) {
+		this.pendingCount = pendingCount;
+	}
 
 	public ArrayList<Issue> getIssueList() {
 		return issueList;
@@ -52,10 +76,23 @@ public class PopulatePageAction extends ActionSupport {
 		return "success";
 	}
 
+	@SuppressWarnings("unchecked")
 	public String getIssues() throws Exception {
 		issueList = new ArrayList<Issue>();
 		IPopulatePageService ppService = new PopulatePageService();
-		issueList = ppService.getIssueList();
+		try{
+		ArrayList<Object> returnList = ppService.getIssueList();	
+		issueList = (ArrayList<Issue>) returnList.get(0);
+		int countArray[] = (int []) returnList.get(1);
+		compCount = (int) (countArray[0]*100/(countArray[0] + countArray[1]));
+		pendingCount = (int) (countArray[1]*100/(countArray[0] + countArray[1]));
+		}
+		catch(Exception e){
+			issueList = null;
+			compCount = 0 ;
+			pendingCount = 0;
+			System.out.println(e.getMessage());
+		}
 		getIssuesCallCount++;
 
 		return "success";

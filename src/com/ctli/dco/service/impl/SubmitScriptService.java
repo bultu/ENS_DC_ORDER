@@ -8,26 +8,30 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+
 import com.ctli.dco.service.ISubmitScriptService;
 
 public class SubmitScriptService implements ISubmitScriptService {
 
 	public void makeScript(String developerName2, String issueDesc2,
 			String script2, String type) {
-		
-		File directory = new File("flatfiles/"+ type);
+
+		File directory = new File("flatfiles/" + type);
 		if (!directory.exists()) {
 			if (directory.mkdir()) {
-				System.out.println("Directory "+ directory.getAbsolutePath() +" is created!");
+				System.out.println("Directory " + directory.getAbsolutePath()
+						+ " is created!");
 			} else {
-				System.out.println("Failed to create directory : "+ directory.getAbsolutePath());
+				System.out.println("Failed to create directory : "
+						+ directory.getAbsolutePath());
 			}
 		}
 
-		String filePath = "flatfiles/"+ type +"/" + developerName2 + ".txt";
+		String filePath = "flatfiles/" + type + "/" + developerName2 + ".txt";
 
 		try {
-			String tempfilePath = "flatfiles/" + type +"/" + developerName2 + ".tmp";
+			String tempfilePath = "flatfiles/" + type + "/" + developerName2
+					+ ".tmp";
 			File file = new File(filePath);
 			File tempFile = new File(tempfilePath);
 			BufferedReader br = null;
@@ -90,6 +94,11 @@ public class SubmitScriptService implements ISubmitScriptService {
 			fw.close();
 			System.out.println("Done");
 
+			if (editFlag)
+				updateScriptStatus(developerName2, issueDesc2, "ReSubmitted");
+			else
+				updateScriptStatus(developerName2, issueDesc2, "Submitted");
+
 		} catch (IOException e) {
 
 			System.out.println(e.getMessage());
@@ -97,6 +106,50 @@ public class SubmitScriptService implements ISubmitScriptService {
 
 	}
 
+	public void updateScriptStatus(String developerName, String issueDesc,
+			String status) {
 
+		String filePath = "inputFiles/DC_ORDER/output/commonData.txt";
+		String tempfilePath = "inputFiles/DC_ORDER/output/commonData.txt_tmp";
+		CompareIssueService ciService = new CompareIssueService();
 
+		File file = new File(filePath);
+		File tempFile = new File(tempfilePath);
+		BufferedReader br = null;
+		PrintWriter pw = null;
+		try {
+
+			br = new BufferedReader(new FileReader(filePath));
+			pw = new PrintWriter(new FileWriter(tempFile));
+			String sCurrentLine;
+			while ((sCurrentLine = br.readLine()) != null) {
+
+				String lineBuf[] = sCurrentLine.split("--");
+				if (lineBuf[1].trim().equalsIgnoreCase(issueDesc)
+						&& lineBuf[2].equalsIgnoreCase(developerName)) {
+
+					sCurrentLine = lineBuf[0] + "--" + lineBuf[1] + "--"
+							+ lineBuf[2] + "--" + status;
+				}
+
+				pw.println(sCurrentLine);
+				pw.flush();
+			}
+
+			pw.close();
+			br.close();
+
+			ciService.moveFile(tempFile, file);
+
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+
+	}
+
+	public static void main(String[] args) {
+		
+		SubmitScriptService ssService =  new SubmitScriptService();
+		ssService.updateScriptStatus("Brar, Prabhsharan", "ERROR_in_Bundle(439599385,1238531597,915970847);", "Submitted");
+	}
 }

@@ -40,8 +40,6 @@ public class CompareIssueService implements ICompareIssueService {
 
 			String sCurrentLineOld;
 			String sCurrentLineNew;
-			String sPart1;
-
 			try {
 
 				copyFile(resultsInputFile, source);
@@ -140,17 +138,17 @@ public class CompareIssueService implements ICompareIssueService {
 
 	}
 	
-	public static void main(String[] args) {
+/*	public static void main(String[] args) {
 		CompareIssueService css = new  CompareIssueService();
 		css.assignIssues();
-	}
+	}*/
 
 
 	public ArrayList<Issue> assignIssues() {
 		ArrayList<Issue> issueList = new ArrayList<Issue>();
 		ArrayList<Developer> devList = new ArrayList<Developer>();
 		String issuedirectory = "inputFiles/DC_ORDER/output/commonData.txt";
-		String devDirectory = "referenceData/DC_ORDER/DeveloperList.txt";
+		String devDirectory = "referenceData/DeveloperList.txt";
 
 
 		BufferedReader issueBuffer = null;
@@ -189,6 +187,7 @@ public class CompareIssueService implements ICompareIssueService {
 			Developer devItem = devList.get(index);
 			int devIssueLimit = devItem.getThreshold();
 
+			try{
 			for (Issue issueItem : issueList) {
 				if (devIssueLimit > 0) {
 					issueItem.setDeveloperName(devItem.getName());
@@ -200,6 +199,10 @@ public class CompareIssueService implements ICompareIssueService {
 					devIssueLimit--;
 				}
 			}
+			}catch (IndexOutOfBoundsException e) {
+				System.out.println(e.getMessage());
+			}
+			
 
 			PrintWriter pw = new PrintWriter(issuedirectory);
 			for (Issue issueItem : issueList) {

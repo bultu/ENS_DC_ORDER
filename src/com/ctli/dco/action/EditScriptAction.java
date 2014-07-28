@@ -1,6 +1,5 @@
 package com.ctli.dco.action;
 
-import com.ctli.dco.service.impl.EditScriptService;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class EditScriptAction extends ActionSupport {
@@ -42,7 +41,7 @@ public class EditScriptAction extends ActionSupport {
 
 	@Override
 	public String execute() throws Exception {
-		EditScriptService esService = new EditScriptService();
+		//EditScriptService esService = new EditScriptService();
 		//script = esService.editScript(editScriptName.split("/")[0] , editScriptName.split("/")[1]);
 		script = "cdsdcnzxdkljcn";
 		return "success";

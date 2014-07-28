@@ -6,8 +6,6 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-
 import com.ctli.dco.service.IUploadScriptService;
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
