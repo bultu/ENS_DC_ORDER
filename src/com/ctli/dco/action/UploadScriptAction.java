@@ -31,7 +31,12 @@ public class UploadScriptAction extends ActionSupport {
 	@Override
 	public String execute() throws Exception {
 		UploadScriptService usService = new UploadScriptService();
+		try{
 		status = usService.uploadScript(fileToUpload.split("/")[0] , fileToUpload.split("/")[1]);
+		} catch(Exception e){
+			System.out.println(e.getMessage());
+			status = "Failed to upload script at remote server";
+		}
 
 		return "success";
 	}
